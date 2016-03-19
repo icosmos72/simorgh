@@ -1,0 +1,12 @@
+#!/usr/bin/env python2.7
+
+__author__ = 'mpwd'
+
+if __name__ == "__main__":
+    import simorgh
+    import argparse
+
+    parser = argparse.ArgumentParser(description='Run a simorgh REST HTTP server')
+    parser.add_argument('--port', type=int, default=8080, nargs='?')
+    args = parser.parse_args()
+    simorgh.server(port=args.port)

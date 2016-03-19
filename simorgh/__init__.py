@@ -1,22 +1,15 @@
+__author__ = 'Matthew Wampler-Doty'
 import cherrypy
-import time
 
-class Temperatures(object):
-    exposed = True
 
-     @cherrypy.tools.accept(media='text/plain')
-     def GET(self):
-         return "foo"
+def server(path='/data', port=8080, serve=True):
+    """Run the server using CherryPy"""
+    import data
+    assert isinstance(path, str), "Path must be a string"
 
-     def POST(self,
-              serial_number,
-              channel,
-              temperature,
-              time_stamp=time.time() * 1000,
-              manufacturer_name=None,
-              product_name=None):
-         return "bar"
+    cherrypy.tree.mount(data.rest_endpoints, path, data.rest_endpoints.conf)
 
-     def PUT(self, another_string):
-         cherrypy.session['mystring'] = another_string
-
+    if serve is True:
+        cherrypy.config.update({'server.socket_port': port})
+        cherrypy.engine.start()
+        cherrypy.engine.block()

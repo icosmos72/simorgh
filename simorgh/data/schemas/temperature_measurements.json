@@ -1,0 +1,90 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "Temperature Measurement API",
+  "description": "The format of a datum taken by a channel on a temperature measurement device at a particular time",
+  "type": "object",
+  "properties": {
+    "type": {
+      "enum": ["temperature measurement"]
+    },
+    "id": {
+      "description": "A UUID tagging this particular temperature measurement",
+      "$ref": "#/definitions/UUID"
+    },
+    "session_id": {
+      "description": "A UUID tagging the session this temperature measurement was taken",
+      "type": "string",
+      "$ref": "#/definitions/UUID"
+    },
+    "timestamp": {
+      "description": "Double precision floating point number representing seconds since UNIX epoch",
+      "type": "number",
+      "minimum": 1458008122
+    },
+    "temperature": {
+      "description": "Double precision floating point representing temperature measured in degrees Celsius",
+      "type": "number"
+    },
+    "manufacturer": {
+      "description": "Manufacturer of the temperature measurement device",
+      "type": "string"
+    },
+    "device_model": {
+      "description": "Model of the temperature measurement device",
+      "type": "string"
+    },
+    "serial_number": {
+      "description": "Serial number associated with the temperature measurement device",
+      "type": "string"
+    },
+    "channel": {
+      "description": "Channel number on the temperature measurement device being measured",
+      "type": "integer",
+      "minimum": 0
+    },
+    "PID": {
+      "description": "The process ID that is capturing the temperature data",
+      "type": "integer",
+      "minimum": 0
+    },
+    "UID": {
+      "description": "The user ID that was responsible for capturing the temperature data",
+      "type": "integer",
+      "minimum": 0
+    },
+    "process_name": {
+      "description": "The name of the script or binary that took the data",
+      "type": "string"
+    },
+    "commit_id": {
+      "description": "The hash of the last revision the of the git repository the process source code was committed to",
+      "$ref": "#/definitions/SHA1"
+    }
+  },
+  "definitions": {
+    "UUID": {
+      "description": "A Universally Unique Identifier",
+      "type": "string",
+      "pattern": "^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$"
+    },
+    "SHA1": {
+      "description": "A SHA1 hash",
+      "type": "string",
+      "pattern": "^[a-f0-9]{40}$"
+    }
+  },
+  "required": [
+    "id",
+    "session_id",
+    "timestamp",
+    "temperature",
+    "manufacturer",
+    "device_model",
+    "serial_number",
+    "channel",
+    "PID",
+    "UID",
+    "process_name",
+    "commit_id"
+  ]
+}

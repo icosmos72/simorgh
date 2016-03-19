@@ -13,4 +13,4 @@ testsuite_reinstall:
 
 clean:
 	make -C testsuite clean
-	rm -rf *.pyc $(shell find mcc/ -name "*.pyc") mcc.egg-info/ dist/ build/
+	rm -rf *.pyc $(shell find mcc/ -name "*.pyc") mcc.egg-info/ dist/ build/ simorgh.egg-info
