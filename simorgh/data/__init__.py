@@ -28,10 +28,10 @@ class SchemaBasedRESTEndpoint(object):
     def __init__(self, schema):
         # TODO: make a schema for validating schema
         assert 'id' in schema['properties'], "Schema does not specify an 'id' property:\n\n{}".format(
-            json.dumps(schema,  sort_keys=True, indent=4, separators=(',', ': ')))
-        assert len(schema['properties']['type']['enum']) is 1,\
+            json.dumps(schema, sort_keys=True, indent=4, separators=(',', ': ')))
+        assert len(schema['properties']['type']['enum']) is 1, \
             "Schema must specify a unique 'type' property:\n\n{}".format(
-            json.dumps(schema,  sort_keys=True, indent=4, separators=(',', ': ')))
+                json.dumps(schema, sort_keys=True, indent=4, separators=(',', ': ')))
         self.schema = schema
         self.name = schema['properties']['type']['enum'][0]
 
@@ -62,16 +62,14 @@ class SchemaBasedRESTEndpoint(object):
 
 
 # Create a rest_endpoints object suitable for CherryPy
-rest_endpoints = (collections.namedtuple('DataRESTEndpoints', ['exposed', 'conf'] + schemas.keys()))(
+rest_endpoints = (collections.namedtuple('DataRESTEndpoints', ['exposed', 'favicon_ico', 'conf'] + schemas.keys()))(
     exposed=True,
+    # This needs to be set apparently...
+    favicon_ico=None,
     conf={
         os.path.join('/', schema_name): {
             'request.dispatch': cherrypy.dispatch.MethodDispatcher(),
             'tools.response_headers.on': True,
-            'tools.response_headers.headers': [('Content-Type', 'text/plain')],
-        }
-        for schema_name in schemas
-        },
-    **{schema_name: SchemaBasedRESTEndpoint(schema)
-       for schema_name, schema in schemas.iteritems()}
-)
+            'tools.response_headers.headers': [('Content-Type', 'application/json')],
+        } for schema_name in schemas},
+    **{schema_name: SchemaBasedRESTEndpoint(schema) for schema_name, schema in schemas.iteritems()})

@@ -2,7 +2,7 @@ __author__ = 'Matthew Wampler-Doty'
 import cherrypy
 
 
-def server(path='/data', port=8080, serve=True):
+def server(path='/', port=8080, serve=True):
     """Run the server using CherryPy"""
     import data
     assert isinstance(path, str), "Path must be a string"

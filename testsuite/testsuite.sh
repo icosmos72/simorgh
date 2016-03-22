@@ -69,7 +69,7 @@ make -C ${DIR} reinstall
 
 SIMORGH_DB=":MEMORY:" ${DIR}/venv/bin/python2.7 ${DIR}/venv/bin/simorgh_server --port ${PORT} &
 
-if with_backoff curl http://127.0.0.1:${PORT}/data/temperature_measurements ; then
+if with_backoff curl http://127.0.0.1:${PORT}/temperature_measurements ; then
 	success "Established connection with simorgh_server on PORT ${PORT}"
 else
 	fail "FAILED to establish connection with simorgh_server on PORT ${PORT}"
@@ -99,12 +99,12 @@ EOF
 
 curl -H "Content-Type: application/json" \
      -X POST -d "$(mock_temperature_data)" \
-     http://127.0.0.1:${PORT}/data/temperature_measurements
+     http://127.0.0.1:${PORT}/temperature_measurements
 
-curl http://127.0.0.1:${PORT}/data/temperature_measurements | python -m json.tool
+curl http://127.0.0.1:${PORT}/temperature_measurements | python -m json.tool
 
 curl -H "Content-Type: application/json" \
      -X PUT -d "$(mock_temperature_data)" \
-     http://127.0.0.1:${PORT}/data/temperature_measurements
+     http://127.0.0.1:${PORT}/temperature_measurements
 
-curl http://127.0.0.1:${PORT}/data/temperature_measurements | python -m json.tool
+curl http://127.0.0.1:${PORT}/temperature_measurements | python -m json.tool
