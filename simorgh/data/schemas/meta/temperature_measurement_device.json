@@ -1,0 +1,31 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "Meta Data Associated With a Temperature Measurement Device",
+  "description": "The format for the meta data associated with a device for measuring temperatures",
+  "type": "object",
+  "properties": {
+    "type": {
+      "enum": [
+        "temperature measurement device"
+      ]
+    },
+        "manufacturer": {
+      "description": "Manufacturer of the temperature measurement device",
+      "type": "string"
+    },
+    "model": {
+      "description": "Model of the temperature measurement device",
+      "type": "string"
+    },
+    "serial_number": {
+      "description": "Serial number associated with the temperature measurement device",
+      "type": "string"
+    }
+  },
+  "required": [
+    "type",
+    "manufacturer",
+    "model",
+    "serial_number"
+  ]
+}

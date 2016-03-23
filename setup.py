@@ -22,7 +22,8 @@ setup(
     url="https://github.com/TESScience/${NAME}",
     packages=find_packages(),
     package_data={
-        'simorgh': ['data/schemas/*.json']
+        'simorgh': ['data/schemas/*.json',
+                    'data/schemas/meta/*.json']
     },
     long_description= read('README.md'),
     classifiers=[

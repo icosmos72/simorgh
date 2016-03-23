@@ -1,0 +1,61 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "Data Collecting Session Meta Data",
+  "description": "The format for the meta data associated with a data collecting session",
+  "type": "object",
+  "properties": {
+    "type": {
+      "enum": [
+        "session"
+      ]
+    },
+    "id": {
+      "description": "A UUID tagging this particular session",
+      "$ref": "#/definitions/UUID"
+    },
+    "start_time": {
+      "description": "Double precision floating point number representing seconds since UNIX epoch when the session started",
+      "type": "number",
+      "minimum": 1458008122
+    },
+    "PID": {
+      "description": "The process ID that is capturing the temperature data",
+      "type": "integer",
+      "minimum": 0
+    },
+    "UID": {
+      "description": "The user ID that was responsible for capturing the temperature data",
+      "type": "integer",
+      "minimum": 0
+    },
+    "process_name": {
+      "description": "The name of the script or binary that took the data",
+      "type": "string"
+    },
+    "commit_id": {
+      "description": "The hash of the last revision the of the git repository the process source code was committed to",
+      "$ref": "#/definitions/SHA1"
+    }
+  },
+  "definitions": {
+    "UUID": {
+      "description": "A Universally Unique Identifier",
+      "type": "string",
+      "pattern": "^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$"
+    },
+    "SHA1": {
+      "description": "A SHA1 hash",
+      "type": "string",
+      "pattern": "^[a-f0-9]{40}$"
+    }
+  },
+  "required": [
+    "id",
+    "type",
+    "start_time",
+    "PID",
+    "UID",
+    "process_name",
+    "commit_id"
+  ]
+}

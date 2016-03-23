@@ -82,17 +82,24 @@ function mock_temperature_data {
 {
   "type": "temperature measurement",
   "id": "$(uuidgen | tr '[:upper:]' '[:lower:]')",
-  "session_id": "$(uuidgen | tr '[:upper:]' '[:lower:]')",
+  "session": {
+     "type": "session",
+     "id": "$(uuidgen | tr '[:upper:]' '[:lower:]')",
+     "start_time": $(python2.7 -c 'import time; print(time.time())'),
+     "process_name": "temperature_monitor.py",
+     "PID": $$,
+     "UID": ${UID},
+     "commit_id": "$(git rev-parse HEAD)"
+  },
   "timestamp": $(python2.7 -c 'import time; print(time.time())'),
   "temperature": 21.0123,
-  "manufacturer": "MCC",
-  "device_model": "USB-TEMP",
-  "serial_number": "001A92053B6ABB4131340023",
-  "channel": 5,
-  "PID": $$,
-  "UID": ${UID},
-  "process_name": "temperature_monitor.py",
-  "commit_id": "$(git rev-parse HEAD)"
+  "device": {
+     "type": "temperature measurement device",
+     "manufacturer": "MCC",
+     "model": "USB-TEMP",
+     "serial_number": "001A92053B6ABB4131340023"
+  },
+  "channel": 5
 }
 EOF
 }

@@ -13,14 +13,47 @@ import cherrypy
 import collections
 from database import db
 
-# Parse all of the schema data from the schemas subdirectory and make a dictionary
-schema_dir = 'schemas'
-schemas = {
-    os.path.splitext(schema)[0]:
-        json.loads(pkg_resources.resource_string(__name__, os.path.join(schema_dir, schema)))
-    for schema in pkg_resources.resource_listdir(__name__, schema_dir)
-    }
 
+def dictionary_map(f, dictionary):
+    """
+    Map a function over some nested dictionaries, returning a new dictionary
+    :param f: function (taking a dictionary as an argument)
+    :param dictionary: dict
+    :return: dict
+    """
+    return f({k: dictionary_map(f, v) if isinstance(v, dict) else v
+              for k, v in dictionary.iteritems()})
+
+
+schema_dir = 'schemas'
+
+
+def load_resource_schema(schema):
+    """
+    Load a JSON from a resource in a specified directory relative to this one
+    :param schema: str
+    :return: dict
+    """
+    return json.loads(pkg_resources.resource_string(__name__, os.path.join(schema_dir, schema)))
+
+
+# TODO: this doesn't handle fragment identifiers properly
+def load_meta_schema(dictionary):
+    """
+    Load any meta schema specified in a schema dictionary
+    :param dictionary: dict
+    :return: dict
+    """
+    return load_resource_schema(dictionary[u'$ref']) \
+        if u'$ref' in dictionary and '.json' in dictionary[u'$ref'] \
+        else dictionary
+
+
+# Parse all of the schema data from the schemas subdirectory and make a dictionary but not its subdirectories
+
+schemas = dictionary_map(load_meta_schema, {os.path.splitext(schema)[0]: load_resource_schema(schema)
+                                            for schema in pkg_resources.resource_listdir(__name__, schema_dir)
+                                            if ".json" in schema})
 
 class SchemaBasedRESTEndpoint(object):
     exposed = True

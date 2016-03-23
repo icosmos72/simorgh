@@ -11,11 +11,8 @@
       "description": "A UUID tagging this particular temperature measurement",
       "$ref": "#/definitions/UUID"
     },
-    "session_id": {
-      "description": "A UUID tagging the session this temperature measurement was taken",
-      "type": "string",
-      "$ref": "#/definitions/UUID"
-    },
+    "session": { "$ref": "meta/session.json" },
+    "device": { "$ref": "meta/temperature_measurement_device.json" },
     "timestamp": {
       "description": "Double precision floating point number representing seconds since UNIX epoch",
       "type": "number",
@@ -25,40 +22,10 @@
       "description": "Double precision floating point representing temperature measured in degrees Celsius",
       "type": "number"
     },
-    "manufacturer": {
-      "description": "Manufacturer of the temperature measurement device",
-      "type": "string"
-    },
-    "device_model": {
-      "description": "Model of the temperature measurement device",
-      "type": "string"
-    },
-    "serial_number": {
-      "description": "Serial number associated with the temperature measurement device",
-      "type": "string"
-    },
     "channel": {
       "description": "Channel number on the temperature measurement device being measured",
       "type": "integer",
       "minimum": 0
-    },
-    "PID": {
-      "description": "The process ID that is capturing the temperature data",
-      "type": "integer",
-      "minimum": 0
-    },
-    "UID": {
-      "description": "The user ID that was responsible for capturing the temperature data",
-      "type": "integer",
-      "minimum": 0
-    },
-    "process_name": {
-      "description": "The name of the script or binary that took the data",
-      "type": "string"
-    },
-    "commit_id": {
-      "description": "The hash of the last revision the of the git repository the process source code was committed to",
-      "$ref": "#/definitions/SHA1"
     }
   },
   "definitions": {
@@ -74,17 +41,12 @@
     }
   },
   "required": [
+    "type",
     "id",
-    "session_id",
+    "session",
+    "device",
     "timestamp",
     "temperature",
-    "manufacturer",
-    "device_model",
-    "serial_number",
-    "channel",
-    "PID",
-    "UID",
-    "process_name",
-    "commit_id"
+    "channel"
   ]
 }
