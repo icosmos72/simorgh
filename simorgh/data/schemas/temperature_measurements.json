@@ -4,15 +4,19 @@
   "description": "The format of a datum taken by a channel on a temperature measurement device at a particular time",
   "type": "object",
   "properties": {
-    "type": {
-      "enum": ["temperature measurement"]
-    },
     "id": {
       "description": "A UUID tagging this particular temperature measurement",
       "$ref": "#/definitions/UUID"
     },
-    "session": { "$ref": "meta/session.json" },
-    "device": { "$ref": "meta/temperature_measurement_device.json" },
+    "serial": {
+      "description": "The serial number (or other uniquely identifying value) for the source of this measurement",
+      "type": "string"
+    },
+    "channel": {
+      "description": "Channel number on the temperature measurement device being measured",
+      "type": "integer",
+      "minimum": 0
+    }
     "timestamp": {
       "description": "Double precision floating point number representing seconds since UNIX epoch",
       "type": "number",
@@ -22,10 +26,13 @@
       "description": "Double precision floating point representing temperature measured in degrees Celsius",
       "type": "number"
     },
-    "channel": {
-      "description": "Channel number on the temperature measurement device being measured",
-      "type": "integer",
-      "minimum": 0
+    "rawvalue": {
+      "description": "If available, the unprocessed value (typically resistance) actually measured",
+      "type": "number"
+    },
+    "meta": {
+      "description": "Any meta-information pertaining to this measurement, particularly what test it was part of; in JSON format",
+      "type": "object"
     }
   },
   "definitions": {
@@ -33,20 +40,13 @@
       "description": "A Universally Unique Identifier",
       "type": "string",
       "pattern": "^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$"
-    },
-    "SHA1": {
-      "description": "A SHA1 hash",
-      "type": "string",
-      "pattern": "^[a-f0-9]{40}$"
     }
   },
   "required": [
-    "type",
     "id",
-    "session",
-    "device",
+    "serial",
+    "channel",
     "timestamp",
     "temperature",
-    "channel"
   ]
 }
